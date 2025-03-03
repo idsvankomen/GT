@@ -2,27 +2,17 @@ class Player():
 
     def __init__(self, strat):
         self.strategy = strat
-        self.moves = []
         self.score = 0
 
-    def make_move(self, own_moves, opp_moves):
-        return self.strategy(own_moves, opp_moves)
+    def make_move(self, moves):
+        m1, m2, m3 = moves
+        return self.strategy[m1][m2][m3]
 
     def update_score(self, score):
         self.score += score
 
-    def __str__(self):
-        return self.strategy.__name__
+    def reset_score(self):
+        self.score = 0
 
-def tit_for_tat(own_moves, opp_moves):
-    if not own_moves:
-        return 1
-    else:
-        return opp_moves[-1]
-
-def hold_a_grudge(own_moves, opp_moves):
-    if not own_moves:
-        return 1
-    elif own_moves[-1] == 1 and opp_moves[-1] == 1:
-        return 1
-    return 0
+    def get_score(self):
+        return self.score
