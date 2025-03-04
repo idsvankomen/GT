@@ -79,11 +79,16 @@ class Tournament(Model):
 
 
 if __name__ == '__main__':
-    player1 = Player(strats.tit_for_tat)
-    player2 = Player(strats.hold_a_grudge)
-    player3 = Player(strats.always_cooperate)
-    players = [player1, player2, player3]
-    names = ['tit for tat', 'hold a grudge', 'always cooperate']
+    strts = [strats.tit_for_tat, strats.tft_defect, strats.hold_a_grudge, strats.always_cooperate,
+             strats.always_defect,
+             strats.average_move, strats.balanced_cooperate, strats.second2last,
+             strats.copy_2back, strats.copy_3back]
+
+    names = ['tit for tat', 'tft defect', 'hold a grudge', 'always cooperate', 'always defect', 'average move',
+             'balanced cooperate', 'second to last', 'copy 2 back',
+             'copy 3 back']
+
+    players = [Player(strts[i], names[i]) for i in range(len(strts))]
 
     sim = Tournament(players, names)
 

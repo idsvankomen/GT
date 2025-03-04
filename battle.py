@@ -18,8 +18,8 @@ class Battle():
 
     def battle(self):
 
-        move1 = self.player1.make_move(self.moves)
-        move2 = self.player2.make_move(-1 * np.array(self.moves))
+        move1 = self.player1.make_move(-1 * np.array(self.moves))
+        move2 = self.player2.make_move(self.moves)
 
         idx = move1 + move2 + 2 if move1 == 0 and move2 == 1 else move1 + move2
 

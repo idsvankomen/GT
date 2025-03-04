@@ -1,7 +1,8 @@
 class Player():
 
-    def __init__(self, strat):
+    def __init__(self, strat, name):
         self.strategy = strat
+        self.name = name
         self.score = 0
 
     def make_move(self, moves):
@@ -16,3 +17,6 @@ class Player():
 
     def get_score(self):
         return self.score
+
+    def get_name(self):
+        return self.name
