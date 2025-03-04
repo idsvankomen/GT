@@ -22,6 +22,7 @@ class Tournament(Model):
         self.rounds = 0
         self.players = players
         self.names = names
+        self.scores = [0 for _ in range(len(players))]
 
         self.make_param('DD', 1)
         self.make_param('DC', 5)
@@ -38,14 +39,13 @@ class Tournament(Model):
         plt.gca().cla()
 
         n = len(self.players)
-        scores = [0 for _ in range(n)]
 
         for i, player in enumerate(self.players):
-            scores[i] = player.get_score()
+            self.scores[i] = player.get_score()
 
 
         for i in range(n):
-            plt.bar(self.names[i], scores[i])
+            plt.bar(self.names[i], self.scores[i])
         plt.show()
 
 
@@ -62,7 +62,6 @@ class Tournament(Model):
             battle.reset_moves()
 
 
-
     def step(self):
         self.rounds += 1
         if self.rounds > self.reencounters:
@@ -70,6 +69,13 @@ class Tournament(Model):
 
         for battle in self.battles:
             battle.battle()
+
+        return False
+
+    def play(self):
+        stop = False
+        while not stop:
+            stop = self.step()
 
 
 if __name__ == '__main__':

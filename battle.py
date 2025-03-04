@@ -33,4 +33,4 @@ class Battle():
         self.player2.update_score(score2)
 
     def reset_moves(self):
-        self.moves = []
+        self.moves = [2, 2, 2]
