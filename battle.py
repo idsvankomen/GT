@@ -31,6 +31,3 @@ class Battle():
 
         self.player1.update_score(score1)
         self.player2.update_score(score2)
-
-    def reset_moves(self):
-        self.moves = [2, 2, 2]

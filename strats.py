@@ -3,7 +3,7 @@ tit_for_tat = [
     [[0,1,1,0], [0,1,1,0], [0,1,1,0], [0,1,1,0]],
     [[0,1,1,0], [0,1,1,0], [0,1,1,0], [0,1,1,0]],
     [[0,1,1,0], [0,1,1,0], [0,1,1,0], [0,1,1,0]]
-    ]
+]
 
 '''
 tit for that, but defect once the other has only cooperated in previous 3
@@ -11,10 +11,21 @@ rounds.
 '''
 tft_defect = [
     [[0,1,1,0], [0,1,1,0], [0,1,1,0], [0,1,1,0]],
-    [[0,1,1,0], [0,1,1,0], [0,1,1,0], [0,1,1,0]],
-    [[0,1,1,0], [0,1,1,0], [0,1,0,0], [0,1,1,0]],
+    [[0,1,1,0], [0,0,0,0], [0,0,0,0], [0,1,1,0]],
+    [[0,1,1,0], [0,0,0,0], [0,0,0,0], [0,1,1,0]],
     [[0,1,1,0], [0,1,1,0], [0,1,1,0], [0,1,1,0]]
-    ]
+]
+
+'''
+tft_defect, but once the other defects as a response on your defect, you
+cooperate to bait them in cooperating again.
+'''
+tft_dfct_bait = [
+    [[0,1,1,0], [0,1,1,0], [0,1,1,0], [0,1,1,0]],
+    [[0,1,1,0], [1,0,0,0], [1,0,0,0], [0,1,1,0]],
+    [[0,1,1,0], [1,0,0,0], [1,0,0,0], [0,1,1,0]],
+    [[0,1,1,0], [0,1,1,0], [0,1,1,0], [0,1,1,0]]
+]
 
 always_defect = [
     [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]],
@@ -25,20 +36,18 @@ always_defect = [
 ]
 
 hold_a_grudge = [
-     #   DD            DC            CC            CD
-    [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],        #DD
-    [[0, 0, 0, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]],        #DC
-    [[0, 0, 0, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]],        #CC
-    [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],        #CD
-    # DD DC CC CD   DD DC CC CD   DD DC CC CD   DD DC CC CD
-    ]
+    [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]],
+    [[0,0,0,0], [0,1,1,0], [0,1,1,0], [0,0,0,0]],
+    [[0,0,0,0], [0,1,1,0], [0,1,1,0], [0,0,0,0]],
+    [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]],
+]
 
 always_cooperate = [
     [[1,1,1,1], [1,1,1,1], [1,1,1,1], [1,1,1,1]],
     [[1,1,1,1], [1,1,1,1], [1,1,1,1], [1,1,1,1]],
     [[1,1,1,1], [1,1,1,1], [1,1,1,1], [1,1,1,1]],
     [[1,1,1,1], [1,1,1,1], [1,1,1,1], [1,1,1,1]]
-    ]
+]
 
 '''
 cooperate if your opponent cooperate more than 1 time in the previous 3 rounds,
@@ -49,19 +58,32 @@ average_move = [
     [[0,1,1,0], [1,1,1,1], [1,1,1,1], [0,1,1,0]],
     [[0,1,1,0], [1,1,1,1], [1,1,1,1], [0,1,1,0]],
     [[0,0,0,0], [0,1,1,0], [0,1,1,0], [0,0,0,0]],
-    ]
+]
 
 '''
 count how often you both cooperated in last 3 rounds. If you cooperated both
 an equal amount of time, cooperate again. Else if the lowest number of
 cooperations from you and your opponent is 2, cooperate. Else: defect
 '''
-balanced_cooperate = [
+balanced_coop_v1 = [
     [[1,0,1,0], [0,0,0,1], [1,0,1,0], [0,1,0,0]],
     [[0,0,0,1], [0,0,0,0], [0,0,1,1], [1,0,1,0]],
     [[1,0,1,0], [0,0,1,1], [1,1,1,1], [0,1,1,0]],
     [[0,1,0,0], [1,0,1,0], [0,1,1,0], [0,0,0,0]],
 ]
+
+'''
+count how often you both cooperated in last 3 rounds. If you cooperated an
+equal amount of times, mirror your opponents last move. Else if you cooperated
+less often, cooperate. Else: defect
+'''
+balanced_coop_v2 = [
+    [[0,1,1,0], [1,1,1,0], [0,1,1,0], [0,1,0,0]],
+    [[1,1,1,0], [1,1,1,1], [1,1,1,0], [0,1,1,0]],
+    [[0,1,1,0], [1,1,1,0], [0,1,1,0], [0,1,0,0]],
+    [[0,1,0,0], [0,1,1,0], [0,1,0,0], [0,0,0,0]],
+]
+
 
 '''
 copy your last move if it was equal to your opponents last move, else flip
@@ -87,7 +109,6 @@ copy_2back = [
 '''
 copy your opponents move 3 rounds back
 '''
-
 copy_3back = [
     [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]],
     [[1,1,1,1], [1,1,1,1], [1,1,1,1], [1,1,1,1]],
@@ -95,6 +116,10 @@ copy_3back = [
     [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]],
 ]
 
+'''
+copy your previous move if you won last round (CC, DC), switch move if you
+lost last round
+'''
 pavlov = [
     [[1,0,1,0], [1,0,1,0], [1,0,1,0], [1,0,1,0]],
     [[1,0,1,0], [1,0,1,0], [1,0,1,0], [1,0,1,0]],
@@ -102,6 +127,10 @@ pavlov = [
     [[1,0,1,0], [1,0,1,0], [1,0,1,0], [1,0,1,0]]
 ]
 
+'''
+copy your previous move if you won at least two rounds of the previous three
+rounds, switch otherwise
+'''
 pavlov_2wins = [
     [[1,1,0,0], [1,0,1,0], [1,0,1,0], [1,1,0,0]],
     [[1,0,1,0], [0,0,1,1], [0,0,1,1], [1,0,1,0]],

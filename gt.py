@@ -4,16 +4,12 @@ UvAID: 15191249 & 15269728
 Description:
 '''
 
-import numpy as np
-
 from pyics import Model
-from pyics import paramsweep
-
 from player import Player
 import strats
 from battle import Battle
-
 import matplotlib.pyplot as plt
+
 
 class Tournament(Model):
     def __init__(self, players, names):
@@ -40,10 +36,6 @@ class Tournament(Model):
 
         n = len(self.players)
 
-        for i, player in enumerate(self.players):
-            self.scores[i] = player.get_score()
-
-
         for i in range(n):
             plt.bar(self.names[i], self.scores[i])
         plt.show()
@@ -51,15 +43,16 @@ class Tournament(Model):
 
     def reset(self):
         self.rounds = 0
-
-        payoff_table = [[self.DD, self.DC],[self.CD, self.CC]]
-        n = len(self.players)
+        self.scores = [0 for _ in range(len(self.players))]
 
         for player in self.players:
             player.reset_score()
 
-        for battle in self.battles:
-            battle.reset_moves()
+        payoff_table = [[self.DD, self.DC],[self.CD, self.CC]]
+        n = len(self.players)
+
+        self.battles = [Battle(self.players[i], self.players[j], payoff_table)
+                        for i in range(n) for j in range(i+1, n)]
 
 
     def step(self):
@@ -70,6 +63,9 @@ class Tournament(Model):
         for battle in self.battles:
             battle.battle()
 
+        for i, player in enumerate(self.players):
+            self.scores[i] = player.get_score()
+
         return False
 
     def play(self):
@@ -79,14 +75,28 @@ class Tournament(Model):
 
 
 if __name__ == '__main__':
-    strts = [strats.tit_for_tat, strats.tft_defect, strats.hold_a_grudge, strats.always_cooperate,
-             strats.always_defect,
-             strats.average_move, strats.balanced_cooperate, strats.second2last,
-             strats.copy_2back, strats.copy_3back]
+    strts = [
+        # bench mark strats
+        strats.tit_for_tat,
+        strats.hold_a_grudge,
+        strats.always_cooperate,
+        strats.always_defect,
 
-    names = ['tit for tat', 'tft defect', 'hold a grudge', 'always cooperate', 'always defect', 'average move',
-             'balanced cooperate', 'second to last', 'copy 2 back',
-             'copy 3 back']
+        #own strats
+        strats.tft_defect,
+        strats.tft_dfct_bait,
+        strats.average_move,
+        strats.balanced_coop_v1,
+        strats.balanced_coop_v2,
+        strats.second2last,
+        strats.copy_2back,
+        strats.copy_3back,
+        strats.pavlov,
+        strats.pavlov_2wins
+        ]
+
+    names = ['TfT', 'HaG', 'AC', 'AD', 'TD', 'TDB', 'AM', 'BC1', 'BC2', 'StL',
+             'C2B', 'C3B', 'Pav', 'Pav2']
 
     players = [Player(strts[i], names[i]) for i in range(len(strts))]
 
